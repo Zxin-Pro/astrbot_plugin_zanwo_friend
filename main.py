@@ -69,14 +69,13 @@ stranger_responses = [
     "astrbot_plugin_zanwo_friend",
     "Futureppo",
     "发送 赞我 自动点赞",
-    "1.0.10",
+    "1.1.0",
     "https://github.com/Zxin-Pro/astrbot_plugin_zanwo_friend",
 )
 class zanwo(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.config = config
-        self.success_responses: list[str] = success_responses
         self._auto_like_tasks = set()
 
         # 群聊白名单
@@ -87,9 +86,31 @@ class zanwo(Star):
         self.zanwo_date: Optional[str] = config.get("zanwo_date", None)
         # 是否仅允许给bot的好友点赞
         self.friend_only: bool = config.get("friend_only", True)
+
+        # 自定义回复词（留空则使用内置默认词）
+        self.success_responses = self._load_responses(config, "success_responses", success_responses)
+        self.limit_responses = self._load_responses(config, "limit_responses", limit_responses)
+        self.not_friend_responses = self._load_responses(
+            config, "not_friend_responses", not_friend_responses
+        )
+        self.stranger_responses = self._load_responses(
+            config, "stranger_responses", stranger_responses
+        )
         # 好友ID缓存
         self._friend_ids: Optional[set[str]] = None
         self._friend_ids_at: float = 0.0
+
+    @staticmethod
+    def _load_responses(
+        config: AstrBotConfig, key: str, defaults: list[str]
+    ) -> list[str]:
+        """从配置读取自定义回复词，配置为空列表时回退到内置默认词"""
+        custom = config.get(key, [])
+        if isinstance(custom, list):
+            custom = [str(item).strip() for item in custom if str(item).strip()]
+        if custom:
+            return custom
+        return list(defaults)
 
     def _is_group_allowed(self, event: AiocqhttpMessageEvent) -> bool:
         group_id = event.get_group_id()
@@ -176,13 +197,13 @@ class zanwo(Star):
         replys = []
         for id in ids:
             if friend_ids is not None and str(id) not in friend_ids:
-                replys.append(random.choice(not_friend_responses))
+                reply = await self._render(
+                    client, id, random.choice(self.not_friend_responses)
+                )
+                replys.append(reply)
                 continue
 
             total_likes = 0
-            username = (await client.get_stranger_info(user_id=int(id))).get(
-                "nickname", "未知用户"
-            )
             for _ in range(5):
                 try:
                     await client.send_like(user_id=int(id), times=10)  # 点赞10次
@@ -190,24 +211,37 @@ class zanwo(Star):
                 except aiocqhttp.exceptions.ActionFailed as e:
                     error_message = str(e)
                     if "已达" in error_message:
-                        error_reply = random.choice(limit_responses)
+                        error_reply = random.choice(self.limit_responses)
                     elif "权限" in error_message:
                         error_reply = "你设了权限不许陌生人赞你"
                     else:
-                        error_reply = random.choice(stranger_responses)
+                        error_reply = random.choice(self.stranger_responses)
                     break
 
             reply = random.choice(self.success_responses) if total_likes > 0 else error_reply
-
-            # 检查 reply 中是否包含占位符，并根据需要进行替换
-            if "{username}" in reply:
-                reply = reply.replace("{username}", username)
-            if "{total_likes}" in reply:
-                reply = reply.replace("{total_likes}", str(total_likes))
-
-            replys.append(reply)
+            replys.append(await self._render(client, id, reply, total_likes))
 
         return "\n".join(replys).strip()
+
+    async def _render(
+        self,
+        client: CQHttp,
+        user_id: str,
+        reply: str,
+        total_likes: int = 0,
+    ) -> str:
+        """替换回复词中的占位符：{username}=对方昵称 {total_likes}=点赞数"""
+        if "{username}" in reply:
+            try:
+                username = (await client.get_stranger_info(user_id=int(user_id))).get(
+                    "nickname", "未知用户"
+                )
+            except Exception:
+                username = "未知用户"
+            reply = reply.replace("{username}", username)
+        if "{total_likes}" in reply:
+            reply = reply.replace("{total_likes}", str(total_likes))
+        return reply
 
     @staticmethod
     def get_ats(event: AiocqhttpMessageEvent) -> list[str]:

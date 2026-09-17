@@ -23,5 +23,29 @@
         "type": "bool",
         "hint": "开启后只给bot的好友点赞，非好友回复“非好友不能点赞”；关闭则恢复给陌生人点赞",
         "default": true
+    },
+    "success_responses": {
+        "description": "点赞成功的回复词",
+        "type": "list",
+        "hint": "点赞成功时随机回复一条，留空则用默认词。可用占位符：{username}=对方昵称 {total_likes}=点赞数",
+        "default": []
+    },
+    "limit_responses": {
+        "description": "点赞已达上限的回复词",
+        "type": "list",
+        "hint": "今日点赞数达到上限时随机回复一条，留空则用默认词。可用占位符：{username}",
+        "default": []
+    },
+    "not_friend_responses": {
+        "description": "非好友的回复词",
+        "type": "list",
+        "hint": "开启仅好友可点赞且对方不是好友时随机回复一条，留空则用默认词",
+        "default": []
+    },
+    "stranger_responses": {
+        "description": "陌生人点赞失败的回复词",
+        "type": "list",
+        "hint": "点赞报错（权限/风控以外）时随机回复一条，留空则用默认词。可用占位符：{username}",
+        "default": []
     }
 }

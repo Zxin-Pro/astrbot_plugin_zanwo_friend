@@ -1,6 +1,6 @@
 name: astrbot_plugin_zanwo_friend 
 desc: QQ点赞插件，每天可点50个赞，还能定时自动点赞；默认仅好友可点赞 
 help: 发送指令 赞我 点赞 
-version: v1.0.10 
+version: v1.1.0 
 author: Futureppo 、Zhalslar 
 repo: https://github.com/Zxin-Pro/astrbot_plugin_zanwo_friend 
