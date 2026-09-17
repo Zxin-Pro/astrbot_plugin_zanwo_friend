@@ -67,7 +67,7 @@ stranger_responses = [
 
 @register(
     "astrbot_plugin_zanwo_friend",
-    "Futureppo",
+    "Zxin-Pro",
     "发送 赞我 自动点赞",
     "1.1.0",
     "https://github.com/Zxin-Pro/astrbot_plugin_zanwo_friend",

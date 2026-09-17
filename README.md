@@ -9,8 +9,7 @@
 _✨ [astrbot](https://github.com/AstrBotDevs/AstrBot) 赞我插件 ✨_
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![GitHub](https://img.shields.io/badge/作者-Futureppo-blue)](https://github.com/Futureppo)
-[![GitHub](https://img.shields.io/badge/作者-Zhalslar-blue)](https://github.com/Zhalslar)
+[![GitHub](https://img.shields.io/badge/作者-Zxin-Pro-blue)](https://github.com/Zxin-Pro)
 
 </div>
 
@@ -18,7 +17,7 @@ _✨ [astrbot](https://github.com/AstrBotDevs/AstrBot) 赞我插件 ✨_
 
 【仅QQ】QQ名片赞，同时用户可以订阅点赞，订阅后bot每天自动为用户点赞。可在 控制面板>插件配置 开启白名单群聊, 开启后只有在白名单群聊中才能使用插件。
 
-> 本仓库基于 [Futureppo/astrbot_plugin_zanwo](https://github.com/Futureppo/astrbot_plugin_zanwo) 修改，遵循原 MIT 协议。
+> 本仓库由 [Zxin-Pro](https://github.com/Zxin-Pro) 维护，遵循 MIT 协议。
 > 主要改动：新增「仅好友可点赞」校验 —— 非 bot 好友会被拒绝，回复「非好友不能点赞」；可在 控制面板>插件配置 中关闭。
 
 ## ⌨️ 命令
@@ -49,7 +48,7 @@ _✨ [astrbot](https://github.com/AstrBotDevs/AstrBot) 赞我插件 ✨_
 
 ## 🐔 联系作者
 
-- **反馈**：欢迎在 [GitHub Issues](https://github.com/Futureppo/astrbot_plugin_zanwo/issues) 提交问题或建议
+- **反馈**：欢迎在 [GitHub Issues](https://github.com/Zxin-Pro/astrbot_plugin_zanwo_friend/issues) 提交问题或建议
 
 ---
 
