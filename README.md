@@ -6,7 +6,7 @@
 
 # astrbot_plugin_zanwo_friend
 
-_✨ [astrbot](https://github.com/AstrBotDevs/AstrBot) 赞我插件 ✨_
+_✨ [astrbot](https://github.com/AstrBotDevs/AstrBot) 赞我插件（中文名：赞我） ✨_
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![GitHub](https://img.shields.io/badge/作者-Zxin-Pro-blue)](https://github.com/Zxin-Pro)
